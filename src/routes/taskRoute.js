@@ -4,8 +4,14 @@ import '../db/mongoose.js';
 const router = express.Router();
 
 
+//Interface//
+
+router.get("/task",(req,res)=>{
+    res.render("task")
+})
 
 
+// End point of API
 
 router.post("/api/tasks",async(req,res)=>{
     const task = new Task(req.body);
