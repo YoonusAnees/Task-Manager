@@ -1,0 +1,26 @@
+.navbar {
+    padding-right: 20%;
+    padding-left: 20%;
+}
+
+.main{
+    width: 60%;
+    margin:auto;
+    margin-top: 20px
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid lightblue;
+    padding-bottom: 10px;
+}
+.task-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 10px 0;
+    padding: 10px;
+    box-shadow: 0 0  5px rgba(0, 0, 0, 0.4);
+}
