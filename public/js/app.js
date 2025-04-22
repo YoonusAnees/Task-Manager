@@ -10,18 +10,7 @@ const getTask = async(req,res)=>{
     
         var taskHtml = "";
         tasks.forEach((task)=>{
-            taskHtml+=`
-              <div class="task-card">
-            <h4>${task.description}</h4>
-    
-            <div class="task-action">
-                <button class="btn btn-primary btn-sm"><i class="fas fa-user-edit"></i></button>
-                <button class="btn btn-danger btn-sm"><i class="fas fa-user-times"></i></button>
-            </div>
-        </div>
-    
-    </div>
-            `;
+            taskHtml+= taskComponent(task);
         });
     
         $(".task-container").html(taskHtml)
@@ -84,14 +73,15 @@ const createTask = async () => {
       });
   
       const task = await response.json();
-      const taskHtml = `
-        <div class="task-card">
-          <h4>${task.description}</h4>
-          <div class="task-action">
-              <button class="btn btn-primary btn-sm"><i class="fas fa-user-edit"></i></button>
-              <button class="btn btn-danger btn-sm"><i class="fas fa-user-times"></i></button>
-          </div>
-        </div>`;
+
+      
+      
+      if(task.error){
+        return alert(task.error);
+      }
+
+
+      const taskHtml = taskComponent(task);
   
       $(".task-container").prepend(taskHtml); // show at top
   
@@ -107,6 +97,16 @@ const createTask = async () => {
     }
   }
   
+
+const taskComponent = (task)=>{
+return ` <div class="task-card">
+          <h4>${task.description}</h4>
+          <div class="task-action">
+              <button class="btn btn-primary btn-sm"><i class="fas fa-user-edit"></i></button>
+              <button class="btn btn-danger btn-sm"><i class="fas fa-user-times"></i></button>
+          </div>
+        </div> `;
+}
 
 getTask();
 
