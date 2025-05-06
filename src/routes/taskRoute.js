@@ -15,6 +15,7 @@ router.get("/task",(req,res)=>{
 
 router.post("/api/tasks",async(req,res)=>{
     const task = new Task(req.body);
+   setTimeout(async() => {
     try {
         await task.save();
         res.send(task);
@@ -22,6 +23,7 @@ router.post("/api/tasks",async(req,res)=>{
     } catch (e) {
         res.send({error:message});
     }
+   }, 2000);
 });
 
 
@@ -59,13 +61,15 @@ router.get("/api/tasks/:id",async(req,res)=>{
 
 // Update a task
 router.patch("/api/tasks/:id", async (req, res) => {
-    try {
-        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!task) {
-            return res.send({ error: "Task not found" });
-        }
-        res.send(task);
-    } catch (e) { res.send({ error: e.message }); } });
+    setTimeout(async() => {
+        try {
+            const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!task) {
+                return res.send({ error: "Task not found" });
+            }
+            res.send(task);
+        } catch (e) { res.send({ error: e.message }); }
+    }, 2000); });
 
     // Delete a task
 
