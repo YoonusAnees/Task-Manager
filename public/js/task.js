@@ -1,16 +1,16 @@
-const addbtn =`  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  Loading...`;
-
-const updateBtn = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
-
-const btnSave = ` <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  Saving Your Updates...`;
 
 
 
-const getTask = async(req,res)=>{
-    const url = "/api/tasks";
 
+const getTask = async(search)=>{
+    var url = "/api/tasks";
+   
+    if (search){
+       const cleanedSearch = search.trim();
+       if(cleanedSearch !=""){
+        url = url + "?search=" + search;
+       }
+    }
     try {
 
         const response = await fetch(url)
@@ -30,35 +30,26 @@ const getTask = async(req,res)=>{
 
 }
 
-// const createTask= async()=>{
+// const getTask= async(search)=>{
 //   const url = "/api/tasks";
-//   const data = {
-//     description: $("#description").val(),
-//     completed: document.querySelector('#completed').checked
-//   }
+
+//    if (search){
+//       url = url + "?search" + search;
+//     }
+
+//     console.log(url);
+ 
 //   try {
-//     const response = await fetch(url,{
-//         method:"POST",
-//         headers:{
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(data)
-//     });
+//     const response = await fetch(url);
+//     const tasks =await response.json();
+//     const taskHtml = "";
 
-//     const task =await response.json();
-//     const taskHtml = `
-//       <div class="task-card">
-//             <h4>${task.description}</h4>
-    
-//             <div class="task-action">
-//                 <button class="btn btn-primary btn-sm"><i class="fas fa-user-edit"></i></button>
-//                 <button class="btn btn-danger btn-sm"><i class="fas fa-user-times"></i></button>
-//             </div>
-//         </div>
-    
-//     </div>`;
+//     tasks.forEach(task=>{
+//       taskHtml+= taskComponent(task);
+//     })
+     
 
-//     $(".task-container").append(taskHtml);
+//     $(".task-container").html(taskHtml);
 //   } catch (e) {
 //     alert("Somthing went wrong unable to create a new task")
 //   }
@@ -119,11 +110,14 @@ const createTask = async () => {
    
 
     showSuccess("Task Added Successfully");
-    hideLoader("#create-btn",intitialContent);
+    
 
   
     } catch (e) {
      ShowError("An error occurred while creating the task.")
+    }
+    finally{
+      hideLoader("#create-btn",intitialContent);
     }
   }
 
@@ -217,10 +211,20 @@ const updateTask = async () => {
     completed: document.querySelector("#updateCompleted").checked
   };
 
+ 
+
+
+
+
   $("#updateModel").modal("hide");
 
-  const intitialContent = $("#updatebtn").html();
-  showLoader("#updatebtn",updateBtn);
+   const intitialContentSave = $(".btnSaving").html();
+   showLoader(".btnSaving", btnSave);
+  
+  const btnSelectorupdate ="#task-"+taskId + "  .btnUpdate";
+  const intitialContent = $().html(btnSelectorupdate);
+  showLoader(btnSelectorupdate,updateBtn);
+ 
 
   try {
     const response = await fetch(url, {
@@ -250,15 +254,72 @@ const updateTask = async () => {
   
 
     // Show success message
+    
     showSuccess("Task Updated Successfully!");
-    hideLoader("#updatebtn", intitialContent);
+    
+   
 
 
   } catch (e) {
     ShowError("An error occurred while updating the task.");
   }
+  finally{    
+    
+    hideLoader(btnSelectorupdate, intitialContent);
+
+
+  }
 };
 
+
+const deleteTask = async (id) => {
+  const url = "/api/tasks/" + id;
+
+  const btnSelector = "#task-" + id + " .deleteBtn";
+  const intitialContent = $(btnSelector).html();  
+  showLoader(btnSelector, genralLoader);
+
+
+  try {
+    const response = await fetch(url, {
+      method: "DELETE"
+    });
+
+    const task = await response.json();
+
+    if (task.error) {
+      return ShowError(task.error);
+    }
+
+    $("#task-" + id).remove();
+
+    showSuccess("Task Deleted Successfully!");
+
+  } catch (e) {
+    ShowError("An error occurred while deleting the task.");
+  }
+  finally{
+    hideLoader(btnSelector, intitialContent);
+  
+  }
+};
+
+const initiateDelete = (id)=>{
+swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this rocrd!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+}).then((willDelete) => {
+  if (willDelete) {
+    deleteTask(id);
+  } else {
+    swal("Your  Record is safe!");
+  }
+});
+
+}
 
 
   
@@ -275,10 +336,10 @@ const updateTask = async () => {
         </div>
   
         <div class="task-action">
-          <button class="btn btn-primary btn-sm " id="updatebtn" onclick="initialUpdateTask('${task._id}')">
+          <button class="btn btn-primary btn-sm btnUpdate " id="updatebtn" onclick="initialUpdateTask('${task._id}')">
             <i class="fas fa-user-edit"></i>
           </button>
-          <button class="btn btn-danger btn-sm"  id="deletebtn">
+          <button class="btn btn-danger btn-sm deleteBtn" onclick="initiateDelete('${task._id}')">
             <i class="fas fa-user-times"></i>
           </button>
         </div>
@@ -287,39 +348,7 @@ const updateTask = async () => {
   };
   
 
-const showModel = (selector)=>{
-  
-  $("label.error").hide();
-  $(".error").removeClass("error");
-  $(selector).modal("show");
-   
-}
 
-const hideModel =(Selector)=>{
-  $(Selector).modal("hide");
-}
-
-
-const showSuccess = (message) =>{
-  toastr.success(message);
-}
-
-const ShowError = (message) =>{
-  toastr.error(message);}
-
-
-
-const showLoader =(selector,content)=>{
-  const btn = document.querySelector(selector);
-  btn.innerHTML = content;
-  btn.disabled = true;
-}
-
-const hideLoader =(selector, content)=>{
-  const btn = document.querySelector(selector);
-  btn.innerHTML = content;
-  btn.disabled = false;
-}
 
 getTask();
 
@@ -327,7 +356,7 @@ getTask();
 
 const createForm = $("#create-form");
 const updateForm = $("#update-form");
-
+const searchForm = $("#search-form");
 createForm.validate({
   rules: {
     description: {
@@ -365,5 +394,23 @@ updateForm.on("submit", (e) => {
   }
 }); 
 
+
+searchForm.on('submit', (e)=>{
+  e.preventDefault();
+  const search = $("#search-input").val();
+  getTask(search);
+
+
+})
+
 // console.log(createForm[0])
 // createForm[0].reset();
+
+
+//  const searchValue = $('#search').val().trim();
+
+//   if(searchValue.length>0){
+//     getTask(searchValue);
+//   }else{
+//     getTask();
+//   }

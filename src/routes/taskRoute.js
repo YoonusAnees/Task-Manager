@@ -28,20 +28,49 @@ router.post("/api/tasks",async(req,res)=>{
 
 
 /// Read Task
+ // const task = await Task.find({});
+        // if(task){
 
-router.get("/api/tasks",async(req,res)=>{
+        //     return res.send(task)
+        // }
+// router.get("/api/tasks",async(req,res)=>{
+//     const search = req.query.search;
+//     var tasks =[];
+//     try {
+//         if(search){
+//             tasks = await Task.find({description:search});
+//         }
+//         else{
+//             tasks = await Task.find({});
+//         }
+         
+
+
+//         res.send({error:"No Tasks Available"})
+        
+//     } catch (e) {
+//         res.send({error:e.message})
+//     }
+// });
+
+router.get("/api/tasks", async (req, res) => {
+    const search = req.query.search;
     try {
-        const task = await Task.find({});
-        if(task){
-            return res.send(task)
+        let tasks;
+        if (search) {
+            tasks = await Task.find({ description: { $regex: search } });
+        } else {
+            tasks = await Task.find({});
         }
 
-        res.send({error:"No Tasks Available"})
-        
+        // Return tasks, even if empty
+        res.send(tasks);
+
     } catch (e) {
-        res.send({error:e.message})
+        res.status(500).send({ error: e.message });
     }
 });
+
 
 //Read a task
 
@@ -75,7 +104,8 @@ router.patch("/api/tasks/:id", async (req, res) => {
 
 router.delete("/api/tasks/:id", async (req, res) => {
     
-    try {
+   setTimeout(async() => {
+     try {
         const task = await Task.findByIdAndDelete(req.params.id);
 
         if (!task) {
@@ -88,6 +118,7 @@ router.delete("/api/tasks/:id", async (req, res) => {
         
         res.send({ error: e.message });
     }
+   }, 2000);
 });
 
 export default router;
