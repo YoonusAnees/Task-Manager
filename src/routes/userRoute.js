@@ -5,7 +5,22 @@ const router = express.Router();
 
 
 
+//========================Login Users ===================================================//
 
+
+router.post('/api/users/login', async(req,res)=>{
+   // Authenticate user  (identifiying user)
+
+   const user = await User.fineByCredentials(req.body.email ,req.body.password);
+   if(user){
+    return res.send(user);
+   }
+
+   res.send({error:"Invalid Credential !"})
+
+})
+
+//========================Create Users ===================================================//
 router.post("/api/users", async(req,res)=>{
     const user = new User(req.body);
 try{
@@ -13,6 +28,9 @@ try{
     await user.save();
     res.send(user);
 } catch (e){
+          if(e.code === 11000){
+            return res.send({error:"Email already exists"});
+          }
           res.send({error:e.message});
 }
 });
@@ -69,12 +87,17 @@ if(!isValid){
 }
 
 try {
-    const user = await User.findByIdAndUpdate(req.params.id,req.body,{new: true});
+    const user = await User.findById(req.params.id);
 
-    if(user){
-        return res.send(user);
+    if(!user){
+        return res.send({error:"unable to update user. User not found!"});
     }
-    res.send({error:"Unable to Update the User ! : user not found"});
+
+    updates.forEach((update)=>{
+        user[update] = req.body[update];
+    });
+    await user.save();
+    res.send(user);
 } catch (e) {
      res.send({error: e.message});
 }
