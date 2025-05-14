@@ -31,6 +31,8 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
+          <img class="profile-image profile-image-sm" src="/images/uploads/{{ user.imagePath }}" alt="">
+
             Hi {{ user.name }}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,13 +65,13 @@
           <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
         </div>
         <div class="form-group">
-          <label for="number">Age</label>
-          <input type="number" class="form-control" id="number" name="number" value="{{ user.age }}">
+          <label for="age">Age</label>
+          <input type="number" class="form-control" id="number" name="age" value="{{ user.age }}">
         </div>
-        {{!-- <div class="form-group">
+        <div class="form-group">
           <label for="password">Password</label>
           <input type="text" class="form-control" id="password" value="{{ user.password }}">
-        </div> --}}
+        </div>
         <div class="form-group">
           <label for="profile">Profile Images</label>
           <input type="file" class="profile" id="profile" name="profile">

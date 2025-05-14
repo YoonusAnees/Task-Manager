@@ -52,3 +52,19 @@
   box-shadow: 0 2px 5px black;
   width: 400px;
 }
+
+.profile-image {
+
+  width: 30px;         /* Set desired size */
+  height: 30px;
+
+  border-radius: 50%;   /* Makes it perfectly circular */
+
+}
+
+.profile-image-sm {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}

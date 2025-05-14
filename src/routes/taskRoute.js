@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/task", auth  , (req,res)=>{
 
  // console.log(req.sessionID);// id of the session 
-    console.log(req.session.user);
+    // console.log(req.session.user);
     res.render("task",{user:req.session.user}) // it for seein gthe user name in the nav bar
 })
 
