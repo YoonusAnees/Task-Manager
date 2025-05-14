@@ -57,6 +57,7 @@ const getTask = async(search)=>{
 
 const createTask = async () => {
     const url = "/api/tasks";
+    const form = createForm[0];
     const data = {
       description: $("#description").val(),
       completed: document.querySelector('#completed').checked
@@ -64,9 +65,10 @@ const createTask = async () => {
 
     // document.querySelector(".error").classList.remove("error");
   
-    
+    form.reset();
     hideModel("#create-model");
-    createForm[0].reset();
+    // createForm[0].reset();
+
     const intitialContent = $("#create-btn").html();
     showLoader("#create-btn",addbtn);
 

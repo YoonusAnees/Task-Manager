@@ -139,52 +139,52 @@ router.get("/users/profile" , auth,(req,res)=>{
 
     // res.render("profile_setting" ,{user : req.session.user});
 // });
-router.post("/users/profile", auth, async (req, res) => {
+// router.post("/users/profile", auth, async (req, res) => {   this is just by form old methos below we made wuth js
     
-        if (req.files) {
-            const result = await User.uploadAvatar(req.files.profile);
-            if (result.error) {
-                return res.send({ error: result.error });
-            }
-            req.body.imagePath = result.fileName;
-        }
-        try {
+//         if (req.files) {
+//             const result = await User.uploadAvatar(req.files.profile);
+//             if (result.error) {
+//                 return res.send({ error: result.error });
+//             }
+//             req.body.imagePath = result.fileName;
+//         }
+//         try {
 
-        const updates = Object.keys(req.body);
-        const allowedUpdates = ["name", "age", "password", "email", "imagePath"];
-        const isValid = updates.every((update) => {
-       return allowedUpdates.includes(update)});
+//         const updates = Object.keys(req.body);
+//         const allowedUpdates = ["name", "age", "password", "email", "imagePath"];
+//         const isValid = updates.every((update) => {
+//        return allowedUpdates.includes(update)});
 
-        if (!isValid) {
-            return res.send({ error: "Invalid Updates!" }); // fixed typo 
-        }
+//         if (!isValid) {
+//             return res.send({ error: "Invalid Updates!" }); // fixed typo 
+//         }
 
-        const user = await User.findById(req.session.user._id);
-        const previousImagepath = user.imagePath; // we got the previous image path
-        if (!user) {
-            return res.send({ error: "Unable to update user. User not found!" });
-        }
+//         const user = await User.findById(req.session.user._id);
+//         const previousImagepath = user.imagePath; // we got the previous image path
+//         if (!user) {
+//             return res.send({ error: "Unable to update user. User not found!" });
+//         }
 
-        updates.forEach((update) => {
-            user[update] = req.body[update]
-        });
+//         updates.forEach((update) => {
+//             user[update] = req.body[update]
+//         });
 
-        await user.save();
-        req.session.user = user;
-        res.redirect("/users/profile");
+//         await user.save();
+//         req.session.user = user;
+//         res.redirect("/users/profile");
 
-        if(req.body.imagePath && previousImagepath !== "profile.png"){  // here first we identifiyng whter user upload the omage and it isnt default imahe we arer deleting 
+//         if(req.body.imagePath && previousImagepath !== "profile.png"){  // here first we identifiyng whter user upload the omage and it isnt default imahe we arer deleting 
 
-            User.revomeAvatar(previousImagepath)
-        }
+//             User.revomeAvatar(previousImagepath)
+//         }
 
 
 
-    } catch (error) {
-        // console.log(error);
-        return res.send({ error: error.message });
-    }
-});
+//     } catch (error) {
+//         // console.log(error);
+//         return res.send({ error: error.message });
+//     }
+// });
 
 //sessoin isnt connected to the database
 
@@ -261,11 +261,54 @@ try {
 
 //========================Update Users ===================================================//
 
-router.patch("/api/users/:id",async(req,res)=>{
+// router.patch("/api/users/:id",async(req,res)=>{
 
-const allowedUpdates = ["name","age","password"]
-const updates = Object.keys(req.body);
-const isValid = updates.every((update)=>{
+// const allowedUpdates = ["name","age","password"]
+// const updates = Object.keys(req.body);
+// const isValid = updates.every((update)=>{
+//     return allowedUpdates.includes(update);
+// });
+
+// if(!isValid){
+//     return res.send({error:"Inavlid Updaets !!!"});
+// }
+
+// try {
+//     const user = await User.findById(req.params.id);
+
+//     if(!user){
+//         return res.send({error:"unable to update user. User not found!"});
+//     }
+
+//     updates.forEach((update)=>{
+//         user[update] = req.body[update];
+//     });
+//     await user.save();
+//     res.send(user);
+// } catch (e) {
+//      res.send({error: e.message});
+// }
+// }); // if we have session we dont need ID
+
+
+router.patch("/api/users",async(req,res)=>{
+
+
+
+try {
+
+       if (req.files) {
+            const result = await User.uploadAvatar(req.files.profile);
+            if (result.error) {
+                return res.send({ error: result.error });
+            }
+            req.body.imagePath = result.fileName;
+        }
+
+  
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ["name","age","password" ,"email","imagePath"]
+    const isValid = updates.every((update)=>{
     return allowedUpdates.includes(update);
 });
 
@@ -273,8 +316,10 @@ if(!isValid){
     return res.send({error:"Inavlid Updaets !!!"});
 }
 
-try {
-    const user = await User.findById(req.params.id);
+
+    const user = await User.findById(req.session.user._id);
+    const previousImagepath = user.imagePath; // we got the previous image path
+    
 
     if(!user){
         return res.send({error:"unable to update user. User not found!"});
@@ -284,11 +329,23 @@ try {
         user[update] = req.body[update];
     });
     await user.save();
+    req.session.user = user;
     res.send(user);
+
+    if(req.body.imagePath && previousImagepath !== "profile.png"){  // here first we identifiyng whter user upload the omage and it isnt default imahe we arer deleting 
+
+            User.revomeAvatar(previousImagepath)
+        }
+
+
 } catch (e) {
      res.send({error: e.message});
 }
-});
+}); // if we have session we dont need ID
+
+
+
+
 
 //========================Delete Users ===================================================//
 
