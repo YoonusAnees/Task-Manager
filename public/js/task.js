@@ -264,10 +264,8 @@ const updateTask = async () => {
     ShowError("An error occurred while updating the task.");
   }
   finally{    
-    
+    hideLoader(".btnSaving", intitialContentSave);
     hideLoader(btnSelectorupdate, intitialContent);
-
-
   }
 };
 

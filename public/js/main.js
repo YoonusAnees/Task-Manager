@@ -43,3 +43,6 @@ const hideLoader = (selector, content) => {
   btn.innerHTML = content;
   btn.disabled = false;
 };
+
+
+//in relatoni ship pouplaye methos it show all the information of the filed 

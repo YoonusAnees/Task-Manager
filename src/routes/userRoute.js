@@ -1,18 +1,76 @@
 import express from 'express';
 import '../db/mongoose.js';
 import User from '../models/User.js';
+import auth from '../middleware/auth.js';
+import path from 'path';
+import apiAuth from '../middleware/api_auth.js';
+import { ObjectId } from 'mongodb';
+
+
+
 const router = express.Router();
 
 
 
+
+//========================Routes for html Pages  ===================================================//
+router.get("/",(req,res)=>{
+    if(req.session.user){
+        req.session.user = undefined;  // if user there remove it becuse session is ending
+    }
+    res.render("index")
+});
+
+//when creating uploading images whe should so  create a unique name for the file , Allow only files , Allow only files with th esize fo rhease all doing we need id for it we will tak eit form mongoDB
+
+router.get("/users/profile" , auth,(req,res)=>{
+
+
+    res.render("profile_setting" ,{user : req.session.user});
+});
+
+router.post("/users/profile" , auth,(req,res)=>{
+    console.log(req.body);
+    console.log(req.files);
+    const file = req.files.profile; //saving the file from outer
+    // file.mv("./public/images/uploads"+file.name, (err)=>{
+    //     if(err){
+    //         return res.send({error:err.message});
+    //     }
+    // });
+    const filePath = path.resolve("./public/images/uploads/" + file.name);
+    //create a unique name fo rthe file
+    const extention = file.name.split('.').pop();
+    const fileName = new ObjectId().toString() + "." + extention;
+
+    //Allow only images 
+    const allowedFiles = ["png","jpeg","JPEG","JPG","gif"]
+
+    if(!allowedFiles.includes(extention)){
+           return  res.send({error:"Please upload image files!"})
+    }
+
+    //saving the file from outer //relove method is from path pakkage it makes absolute path
+    file.mv(filePath,(e)=>{  //mv has to param one where to and other ine is erro handling // mv means move the file 
+        if(e){
+            return res.send({error:e.message});
+        }
+    })
+
+    res.render("profile_setting" ,{user : req.session.user});
+});
 //========================Login Users ===================================================//
 
 
 router.post('/api/users/login', async(req,res)=>{
    // Authenticate user  (identifiying user)
 
-   const user = await User.fineByCredentials(req.body.email ,req.body.password);
+//    const user = await User.fineByCredentials(req.body.email ,req.body.password);
+ const user = await User.fineByCredentials(req.body.email ,req.body.password);
+
    if(user){
+    req.session.user = user;
+    // return res.render("/task")  // it will work
     return res.send(user);
    }
 
