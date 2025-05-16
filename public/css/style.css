@@ -68,3 +68,20 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.profile-big-image{
+   width: 400px;
+   height: 400px;
+  border-radius: 50%;
+
+
+}
+
+.image{
+  text-align: right;
+  object-fit: cover;
+  margin-bottom: -450px;
+
+
+}
+

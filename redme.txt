@@ -1,0 +1,5 @@
+Create env var
+PORT
+SMPT_KEY
+SESSION_KEY
+DB_CONNECTION

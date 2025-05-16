@@ -49,6 +49,10 @@ const userSchema = mongoose.Schema({
     imagePath:{
         type:String,
         default:"profile.png"
+    },
+    isEmailValidator:{
+        type:Boolean,
+        default:false
     }
 });
 
@@ -129,16 +133,26 @@ userSchema.statics.uploadAvatar = async(file)=>{
 //     });
 // }
 
-userSchema.statics.revomeAvatar =(file)=>{
-    const filePath = path.resolve("./public/images/uploads/" + fileName);
-  fs.unlinkSync(filePath, (e)=>{  //romev a file
-          if(e){
-            console.log(e);
-          }
+// userSchema.statics.revomeAvatar =(file)=>{
+//     const filePath = path.resolve("./public/images/uploads/" + fileName);
+//   fs.unlinkSync(filePath, (e)=>{  //romev a file
+//           if(e){
+//             console.log(e);
+//           }
   
           
-  });
-}
+//   });
+// }
+
+userSchema.statics.removeAvatar = (fileName) => {
+    const filePath = path.resolve("./public/images/uploads/" + fileName);
+    try {
+        fs.unlinkSync(filePath);  // remove file synchronously
+    } catch (err) {
+        console.log("Failed to delete file:", err.message);
+    }
+};
+
 
 //save is functiion 
 // next is make to wait untill it hashed

@@ -1,3 +1,4 @@
+//here index.js our express server
 import mongoose from 'mongoose';
 import express from 'express';
 import hbs from 'hbs';
@@ -6,12 +7,12 @@ import { dirname } from 'path';
 import path from 'path'
 import taskRouter from "./routes/taskRoute.js";
 import UserRoute from "./routes/userRoute.js";
-import bcrypt from "bcryptjs";
-// const session = require('express-session');
+import bcrypt from "bcryptjs"; //this for encryp
+// const session = require('express-session'); 
 import session from 'express-session';
 import fileUpload from 'express-fileupload';
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT //|| 3000; // reder will sotre whateever port it can ssave or else 3000 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,7 +21,7 @@ app.use(express.static(publicPath));
 
 app.set('view engine', 'hbs');
 app.use(session({   //session handling
-    secret: 'siuu',
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
     // cookie: { secure: false }
@@ -71,3 +72,13 @@ app.listen(port, () => {
 //cookies arer kind of storage which there we save session informations (SessionId) it is just 4MB
 
 //every single user should have the uniquqe id
+
+
+// sendEmail({
+//     receiver : "yoonusanees2002@gmail.com",
+//     subject:"Welcome to Task App",
+//     content:"verify"
+
+// })
+
+//before  lgin user's login should be validate

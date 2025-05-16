@@ -49,7 +49,13 @@
   <div class="main">
 
 
-    <h1>Profile Setting</h1>
+
+
+     <div class="image">
+             <img class="profile-big-image" src="/images/uploads/{{ user.imagePath }}"  alt="">
+          </div>
+          
+         
 
     <div class="form">
       <form enctype="multipart/form-data">
@@ -68,7 +74,7 @@
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="text" class="form-control" id="password" value="{{ user.password }}">
+<input type="text" class="form-control" id="password" name="password" value="{{ user.password }}">
         </div>
         <div class="form-group">
           <label for="profile">Profile Images</label>
@@ -128,39 +134,43 @@
     updateUser();
   });
 
+
+
+
   const updateUser = async () => {
-    const url = "/api/users";
-    const file = document.querySelector("#profile").files[0];
+  const url = "/api/users";
+  const file = document.querySelector("#profile").files[0];
+  const formData = new FormData();
 
-    const formData = new FormData();
-    formData.append("name", $("#name").val());
-    formData.append("email", $("#email").val());
-    formData.append("age", $("#age").val());
-    formData.append("profile", file);
+  formData.append("name", $("#name").val());
+  formData.append("email", $("#email").val());
+  formData.append("age", $("#age").val());
+  formData.append("password", $("#password").val());
+  if (file) formData.append("profile", file);
 
-    const initialContent = $(".btn-update").html();
-    showLoader(".btn-update", initialContent);
+  const initialContent = $(".btn-update").html();
+  showLoader(".btn-update", initialContent);
 
-    try {
-      const response = await fetch(url, {
-        method: "PATCH",
-        body: formData
-      });
+  try {
+    const response = await fetch(url, {
+      method: "PATCH",
+      body: formData,
+    });
 
-      const user = await response.json();
-      if (user.error) {
-        return ShowError(user.error);
-      }
+    const user = await response.json();
+    if (user.error) return ShowError(user.error);
 
-      $(".profile-image").attr("src" , "/images/uploads/" + user.imagePath)  // updateting thins wihtout refresh
-      $("#username").text(user.name);
-      showSuccess("Profile Updated Successfully");
-    } catch (e) {
-      ShowError("An error occurred while updating the profile.");
-    } finally {
-      hideLoader(".btn-update", initialContent);
-    }
-  };
+    $(".profile-image").attr("src", "/images/uploads/" + user.imagePath);
+    $(".profile-big-image").attr("src", "/images/uploads/" + user.imagePath);
+    $("#username").text(user.name);
+    showSuccess("Profile Updated Successfully");
+  } catch (e) {
+    ShowError("An error occurred while updating the profile.");
+  } finally {
+    hideLoader(".btn-update", initialContent);
+  }
+};
+
 </script>
 
 

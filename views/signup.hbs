@@ -15,7 +15,12 @@
 
 <div class="form">
     <form>
-  <h1>User Login</h1>
+  <h1>User Sign Up</h1>
+    <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+    {{!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+  </div>
   <div class="form-group">
     <label for="email">Email address</label>
     <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
@@ -27,15 +32,18 @@
     <input type="password" class="form-control" id="password" name="password" placeholder="Enter Your Password">
   </div>
 
+   <div class="form-group">
+    <label for="confirm_password">Confirm password</label>
+    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Your Password">
+  </div>
+
   {{!-- <div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div> --}}
 
-  <button type="submit" class="btn btn-primary" id="btn-load">Login</button>
-  <button type="button" class="btn btn-secondary" id="btn-sign-up">Sign Up</button>
-
-
+  <button type="submit" class="btn btn-primary" id="signup-btn">Sign up</button>
+<a href="/">Alredy Loged in ?</a>
 </form>
 </div>
 
@@ -66,47 +74,62 @@
 {{!-- <script src="/js/task.js"></script> --}}
 
 <script>
-
-    $("#btn-sign-up").on("click", () => {
-    window.location.href = "/signup";
-});
-
-
     const form = $("form");
     form.validate({
     rules: {
+        name:{
+            required:true
+        },
         email: {
             required: true
         },
         password: {
             required: true
+        },
+ 
+        confirm_password:{
+            required:true,
+            equalTo:"#password"
         }
+
     }
 });
+//now create a route to recive a psot request
 
   form.on("submit", (e)=>{
         e.preventDefault();
         if(form.valid()){
-            login();
+            signup();
         }
     });
 
 
-const login = async()=>{
-    const url = "/api/users/login";
+const signup = async()=>{
+    const url = "/api/users";
     // we need to get ht data
+    const initialLoader = $("#signup-btn").html();
 
-    const data = {
-        email:$("#email").val(),
-        password:$("#password").val()
+  
+
+    try{
+
+         showLoader("#signup-btn" ,genralLoader);
+
+        const data = {
+
+
+        name :form[0].name.value,
+        email :form[0].email.value,
+        password :form[0].password.value,
+
     }
 
-     const initialLoader = $("#btn-load").html();
-      showLoader("#btn-load" ,genralLoader);
+     
+     
 
     // so now we have the data now we do send the request
 
-    try{
+
         const response = await fetch(url,{
           method : "POST",
           headers:{
@@ -126,15 +149,15 @@ const login = async()=>{
     }
 
     
-//redirect is not used to do one page to another page  oit is for one route to another route
 
-    window.location.replace("/task");
+
+    window.location.replace("/");
 
     }catch (error){
     return ShowError(error.message);
     }
     finally{
-         hideLoader("#btn-load" ,initialLoader);
+         hideLoader("#signup-btn" ,initialLoader);
 
     }
 }
