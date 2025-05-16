@@ -258,7 +258,7 @@ router.post("/api/users", async (req, res) => {
             receiver: user.email,
             subject: "Confirm your  Email",
             content: `<p>Please Click The below link to confirm your email !</p>
-        <a href="http://localhost:3000/confirm_email?userid=${user._id}">Confirm Email</a>`
+        <a href="${process.env.DOMAIN}/confirm_email?userid=${user._id}">Confirm Email</a>`
         });
 
 
