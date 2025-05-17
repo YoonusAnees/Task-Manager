@@ -1,17 +1,33 @@
-.bg {
-  background-color: rgb(132, 165, 193);
-}
-
 .navbar {
+  background-color: #343a40;
+
   padding-right: 20%;
   padding-left: 20%;
+}
+
+.dropdown-menu {
+  background-color: #343a40;
+  border-radius: 5px;
+  color: aliceblue;
+
+}
+
+.dropdown-divider-color {
+  color: red;
+}
+
+.dropdown-item {
+  color: aliceblue;
 }
 
 .main {
   width: 60%;
   margin: auto;
   margin-top: 20px;
+
 }
+
+
 
 .header {
   display: flex;
@@ -19,10 +35,15 @@
   border-bottom: 1px solid lightblue;
   padding-bottom: 10px;
 }
+
 .task-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #343a40;
+  color: aliceblue;
+  border-radius: 25px;
+
 
   margin: 10px 0;
   padding: 10px;
@@ -39,15 +60,16 @@
 }
 
 .form {
-  background-color: rgb(132, 165, 193);
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: 80vh;
   align-items: center;
 }
 
 .form form {
   /* border : 2px solid lightgray; */
+  color: aliceblue;
+  background-color: #343a40;
   padding: 25px;
   box-shadow: 0 2px 5px black;
   width: 400px;
@@ -55,33 +77,246 @@
 
 .profile-image {
 
-  width: 30px;         /* Set desired size */
+  width: 30px;
+  /* Set desired size */
   height: 30px;
-
-  border-radius: 50%;   /* Makes it perfectly circular */
-
+  border-radius: 50%;
+  /* Makes it perfectly circular */
 }
 
-.profile-image-sm {
-  width: 40px;
-  height: 40px;
+
+
+/* .footer {
+  background-color: #343a40;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  align-items: center;
+  color: aliceblue;
+} */
+
+
+
+
+
+
+
+
+@media only screen and (orientation: landscape) {
+  body {
+    background-color: #bbe9db;
+
+  }
+
+  .form-profile-wrapper {
+  position: relative;
+  width: fit-content;
+  margin-left: 30rem;
+}
+
+.profile-big-image {
+  position: absolute;
+  top: -75px; /* adjust based on your preference */
+  right: -75px; /* adjust based on your preference */
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
 }
 
-.profile-big-image{
-   width: 400px;
-   height: 400px;
-  border-radius: 50%;
+.profile-big-image:hover {
+  transform: scale(1.05);
+}
+
+  /* .profile-big-image image {
+    display: flex;
+
+  }
+
+  .profile-big-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 25rem;
+  
+    
+ 
+
+  }
+
+  .profile-big-image:hover {
+    transform: scale(1.05);
+  } */
+
+
+
+
+  .form-prfile {
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+    align-items: center;
+
+
+  }
+
+  .form-prfile form {
+
+    /* border : 2px solid lightgray; */
+    color: aliceblue;
+    background-color: #343a40;
+    padding: 25px;
+    box-shadow: 0 2px 5px black;
+    width: 400px;
+  }
+
+
+  .footer {
+    background-color: #343a40;
+    color: aliceblue;
+    text-align: center;
+    padding: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 100%;
+
+  }
+
+  .footer-main {
+    background-color: #343a40;
+    color: aliceblue;
+    text-align: center;
+    padding: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 35rem;
+
+
+  }
+
+  .footer-prfile {
+    background-color: #343a40;
+    color: aliceblue;
+    text-align: center;
+    padding: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 100%;
+  }
 
 
 }
 
-.image{
-  text-align: right;
-  object-fit: cover;
-  margin-bottom: -450px;
+@media only screen and (orientation: Portrait) {
+  body {
+    background-color: #bbe9db;
+  }
+
+  .image {
+    text-align: right;
+    object-fit: cover;
+    margin-left: 5rem;
 
 
+  }
+
+  #search-form {
+    margin-left: 0.2rem;
+  }
+
+  .dropdown-menu {
+    background-color: #343a40;
+    border-radius: 5px;
+    color: aliceblue;
+
+  }
+
+  .dropdown-divider-color {
+    color: red;
+  }
+
+  .dropdown-item {
+    color: aliceblue;
+  }
+
+  .profile-big-image{
+    display: none;
+  }
+
+  .form-prfile {
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+    margin-top: 4rem;
+    align-items: center;
+  }
+
+  .form-prfile form {
+    color: aliceblue;
+    background-color: #343a40;
+    padding: 25px;
+    box-shadow: 0 2px 5px black;
+    width: 400px;
+  }
+
+  .footer {
+    background-color: #343a40;
+    color: aliceblue;
+    text-align: center;
+    padding: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .footer-main {
+    background-color: #343a40;
+    color: aliceblue;
+    text-align: center;
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 32rem;
+
+
+  }
+
+  .footer-prfile {
+    background-color: #343a40;
+    color: aliceblue;
+    text-align: center;
+    padding: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+
+  }
 }
 
+/* Optional: Responsive adjustments for smaller screens */
+/* @media screen and (max-width: 768px) {
+  .profile-big-image {
+    width: 100px;
+    height: 100px;
+  }
+
+} */

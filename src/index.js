@@ -17,6 +17,10 @@ const port = process.env.PORT //|| 3000; // reder will sotre whateever port it c
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const publicPath = path.join(__dirname, "../public"); //its save our static files like css js
+hbs.registerPartials(path.join(__dirname, '../views/partials'));
+
+
+
 app.use(express.static(publicPath));
 
 app.set('view engine', 'hbs');

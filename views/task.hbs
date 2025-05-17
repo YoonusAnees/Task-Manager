@@ -33,10 +33,10 @@
             aria-haspopup="true" aria-expanded="false">
             <img class="profile-image profile-image-sm" src="/images/uploads/{{ user.imagePath }}" alt="">
 
-           <span id="username"> Hi {{ user.name }}</span>
+            <span id="username"> Hi {{ user.name }}</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/tasks">Tasks</a>
+            <a class="dropdown-item" href="/task">Tasks</a>
             <a class="dropdown-item" href="/users/profile">Profile</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/">Logout</a>
@@ -58,8 +58,7 @@
       </form>
     </div>
 
-
-    <!-- Create Modal -->
+     <!-- Create Modal -->
     <div class="modal fade" id="create-model">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -129,6 +128,14 @@
     <div class="task-container">
     </div>
 
+
+  </div>
+
+
+  
+
+
+
     {{!-- <button class="btn btn-primary" type="button" disabled>
       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       Loading...
@@ -139,7 +146,21 @@
 
 
 
-    {{!--
+
+<footer class="text-center ">
+  <div class="footer-main">
+    Designed and Developed By Yoonus Anees
+  </div>
+</footer>
+
+   
+</body>
+
+
+
+  
+
+ {{!--
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"></script> --}}
@@ -160,6 +181,4 @@
       crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/main.js"></script>
     <script src="/js/task.js"></script>
-</body>
-
 </html>

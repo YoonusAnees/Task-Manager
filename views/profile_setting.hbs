@@ -46,19 +46,18 @@
     </div>
   </nav>
 
-  <div class="main">
+     <div class="form-prfile">
+     
+
+ 
 
 
-
-
-     <div class="image">
-             <img class="profile-big-image" src="/images/uploads/{{ user.imagePath }}"  alt="">
-          </div>
-          
-         
-
-    <div class="form">
-      <form enctype="multipart/form-data">
+ 
+ 
+      <form>
+        <div class="form-profile-wrapper">
+  <img class="profile-big-image" src="/images/uploads/{{ user.imagePath }}" alt="">
+</div>
         <div class="form-group">
           <label for="name">Name</label>
           <input type="name" class="form-control" id="name" name="name" value="{{ user.name }}">
@@ -83,11 +82,12 @@
 
         <button type="submit" class="btn-update btn btn-primary">Submit</button>
       </form>
+     
     </div>
+ 
 
-      <div>
-        {{!-- {{ user.profile }} --}}
-      </div>
+
+
 
 
 
@@ -100,6 +100,11 @@
     {{!-- <p> <button class="btn btn-success" data-toggle="modal" data-target="#create-model"> Add + </button> </p> --}}
 
 
+   <footer class="text-center ">
+  <div class=" footer-prfile">
+    Designed and Developed By Yoonus Anees
+  </div>
+</footer>
 
 
     {{!--
